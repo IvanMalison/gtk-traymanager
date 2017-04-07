@@ -41,9 +41,10 @@ module Graphics.UI.Gtk.Misc.TrayManager (
 
   -- * Functions
   trayManagerCheckRunning,
-  trayManagerNew,
-  trayManagerManageScreen,
   trayManagerGetChildTitle,
+  trayManagerManageScreen,
+  trayManagerNew,
+  trayManagerUnmanage,
 
   -- * Signals
   trayIconAdded,
@@ -136,6 +137,15 @@ trayManagerManageScreen trayManager screen = do
 foreign import ccall "egg_tray_manager_get_child_title"
   c_egg_tray_manager_get_child_title :: Ptr EggTrayManager -> Ptr EggTrayManagerChild -> IO (Ptr CChar)
 
+foreign import ccall "egg_tray_manager_unmanage"
+  c_egg_tray_manager_unmanage :: Ptr EggTrayManager -> IO ()
+
+trayManagerUnmanage :: TrayManager -> IO ()
+trayManagerUnmanage trayManager = do
+  let ptrManager = unsafeCoerce trayManager :: ForeignPtr EggTrayManager
+  _ <- withForeignPtr ptrManager $ \realManager ->
+    c_egg_tray_manager_unmanage realManager
+  return ()
 
 trayManagerGetChildTitle :: TrayManager -> TrayManagerChild -> IO String
 trayManagerGetChildTitle trayManager child = do

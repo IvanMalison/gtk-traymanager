@@ -82,6 +82,7 @@ gboolean        egg_tray_manager_manage_screen   (EggTrayManager      *manager,
 						  GdkScreen           *screen);
 char           *egg_tray_manager_get_child_title (EggTrayManager      *manager,
 						  EggTrayManagerChild *child);
+void           egg_tray_manager_unmanage         (EggTrayManager      *manager);
 
 G_END_DECLS
 
